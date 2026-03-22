@@ -141,3 +141,50 @@ class SubTaskDeleteView(LoginRequiredMixin, DeleteView):
     model = SubTask
     template_name = 'subtask_del.html'
     success_url = reverse_lazy('subtask-list')
+
+
+
+
+class NoteListView(LoginRequiredMixin, ListView):
+    model = Note
+    context_object_name = 'note'
+    template_name = 'note_list.html'
+    paginate_by = 5
+
+    def get_queryset(self):
+        qs = super().get_queryset().select_related('task')
+
+        query = self.request.GET.get('q')
+        if query:
+            qs = qs.filter(
+                Q(content__icontains=query) |
+                Q(task__title__icontains=query)
+            )
+
+        sort_by = self.request.GET.get('sort_by')
+        if sort_by == 'oldest':
+            qs = qs.order_by('created_at')
+        else:
+            qs = qs.order_by('-created_at')
+
+        return qs
+
+
+class NoteCreateView(LoginRequiredMixin, CreateView):
+    model = Note
+    form_class = NoteForm
+    template_name = 'note_form.html'
+    success_url = reverse_lazy('note-list')
+
+
+class NoteUpdateView(LoginRequiredMixin, UpdateView):
+    model = Note
+    form_class = NoteForm
+    template_name = 'note_form.html'
+    success_url = reverse_lazy('note-list')
+
+
+class NoteDeleteView(LoginRequiredMixin, DeleteView):
+    model = Note
+    template_name = 'note_del.html'
+    success_url = reverse_lazy('note-list')
