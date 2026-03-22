@@ -47,11 +47,11 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
 ]
 
-if 'pythonanywhere' in socket.gethostname():
+hostname = socket.gethostname()
+if 'pythonanywhere' in hostname or 'ihlay' in hostname:
     SITE_ID = 3
 else:
     SITE_ID = 2
-
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
