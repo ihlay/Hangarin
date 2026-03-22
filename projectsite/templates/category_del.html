@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Delete Category — Hangarin{% endblock %}
+{% block nav_category %}active{% endblock %}
+
+{% block content %}
+<div class="content">
+  <div class="container-fluid">
+    <h4 class="page-title">Delete Category</h4>
+    <div class="row">
+      <div class="col-md-5">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Confirm Deletion</div>
+          </div>
+          <div class="card-body">
+            <div class="alert alert-danger">
+              <i class="la la-exclamation-triangle"></i>
+              Are you sure you want to delete category <strong>"{{ object }}"</strong>?
+              Tasks in this category will have their category cleared.
+            </div>
+            <form action="" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-rounded">
+                <i class="la la-trash"></i> Yes, Delete
+              </button>
+              <a href="{% url 'category-list' %}" class="btn btn-secondary btn-rounded ml-2">Cancel</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
