@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 {% block title %}{% if object %}Edit{% else %}Add{% endif %} Category — Hangarin{% endblock %}
 {% block nav_category %}active{% endblock %}
 
@@ -16,7 +17,27 @@
           <div class="card-body">
             <form action="" method="post" novalidate>
               {% csrf_token %}
-              {% include 'includes/form.html' %}
+
+              {% if form.non_field_errors %}
+              <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}
+                  <p{% if forloop.last %} class="mb-0"{% endif %}>{{ error }}</p>
+                {% endfor %}
+              </div>
+              {% endif %}
+
+              {% for field in form %}
+              <div class="field item form-group">
+                <label style="font-weight:500;color:var(--olive-dark);font-size:13px;">{{ field.label_tag }}</label>
+                <div class="form-group mb-0">
+                  {% render_field field class="form-control" %}
+                </div>
+                {% for error in field.errors %}
+                <div class="text-danger mt-1" style="font-size:12px;">{{ error }}</div>
+                {% endfor %}
+              </div>
+              {% endfor %}
+
               <div class="form-group mt-3">
                 <button type="submit" class="btn btn-success btn-rounded">
                   <i class="la la-save"></i> Save
