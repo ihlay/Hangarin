@@ -188,3 +188,39 @@ class NoteDeleteView(LoginRequiredMixin, DeleteView):
     model = Note
     template_name = 'note_del.html'
     success_url = reverse_lazy('note-list')
+
+
+
+
+class CategoryListView(LoginRequiredMixin, ListView):
+    model = Category
+    context_object_name = 'category'
+    template_name = 'category_list.html'
+    paginate_by = 5
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            qs = qs.filter(Q(name__icontains=query))
+        return qs
+
+
+class CategoryCreateView(LoginRequiredMixin, CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'category_form.html'
+    success_url = reverse_lazy('category-list')
+
+
+class CategoryUpdateView(LoginRequiredMixin, UpdateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'category_form.html'
+    success_url = reverse_lazy('category-list')
+
+
+class CategoryDeleteView(LoginRequiredMixin, DeleteView):
+    model = Category
+    template_name = 'category_del.html'
+    success_url = reverse_lazy('category-list')
