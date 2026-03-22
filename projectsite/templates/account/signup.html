@@ -1,0 +1,168 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up — Hangarin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <style>
+    :root {
+      --olive-dark: #3d4a1e;
+      --olive: #5c6e2b;
+      --olive-light: #a8b96a;
+      --olive-pale: #d4dba8;
+      --olive-mist: #f5f7ec;
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--olive-mist);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(92,110,43,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(168,185,106,0.12) 0%, transparent 45%);
+      pointer-events: none;
+    }
+    .login-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 40px rgba(61,74,30,0.15);
+      width: 100%;
+      max-width: 440px;
+      padding: 44px 40px;
+      position: relative;
+    }
+    .brand-mark {
+      width: 44px; height: 44px;
+      background: var(--olive-light);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+    .brand-mark svg { width: 22px; height: 22px; }
+    .login-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--olive-dark);
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    .login-sub {
+      text-align: center;
+      color: #6b7a4a;
+      font-size: 13px;
+      margin-bottom: 28px;
+    }
+    .form-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--olive-dark);
+      letter-spacing: 0.3px;
+      margin-bottom: 5px;
+    }
+    .form-control {
+      border: 1.5px solid var(--olive-pale);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 14px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-control:focus {
+      border-color: var(--olive);
+      box-shadow: 0 0 0 3px rgba(92,110,43,0.12);
+      outline: none;
+    }
+    .btn-login {
+      background: var(--olive);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      width: 100%;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 8px;
+    }
+    .btn-login:hover { background: var(--olive-dark); color: #fff; }
+    .signup-link {
+      text-align: center; font-size: 13px; color: #6b7a4a; margin-top: 16px;
+    }
+    .signup-link a { color: var(--olive); font-weight: 500; }
+    .field-error {
+      color: #991b1b; font-size: 12px; margin-top: 4px;
+    }
+    .helptext {
+      color: #6b7a4a; font-size: 11px; margin-top: 3px;
+    }
+  </style>
+</head>
+<body>
+<div class="login-card">
+  <div class="brand-mark">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+  </div>
+  <div class="login-title">Create Account</div>
+  <div class="login-sub">Join Hangarin and start organizing</div>
+
+  {% if form.non_field_errors %}
+  <div style="background:#fef2f2;border:1px solid #fecaca;color:#991b1b;border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:16px;">
+    {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+  </div>
+  {% endif %}
+
+  <form method="post" action="{% url 'account_signup' %}">
+    {% csrf_token %}
+
+    <div class="mb-3">
+      <label class="form-label">Username</label>
+      {% render_field form.username class="form-control" placeholder="Choose a username" %}
+      {% for error in form.username.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      {% render_field form.email class="form-control" placeholder="your@email.com" %}
+      {% for error in form.email.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Password</label>
+      {% render_field form.password1 class="form-control" placeholder="Create a password" %}
+      {% for error in form.password1.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Confirm Password</label>
+      {% render_field form.password2 class="form-control" placeholder="Repeat your password" %}
+      {% for error in form.password2.errors %}<div class="field-error">{{ error }}</div>{% endfor %}
+    </div>
+
+    {% if redirect_field_value %}
+    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+    {% endif %}
+
+    <button type="submit" class="btn-login">Create Account</button>
+  </form>
+
+  <div class="signup-link">
+    Already have an account? <a href="{% url 'account_login' %}">Sign in</a>
+  </div>
+</div>
+</body>
+</html>
