@@ -1,0 +1,360 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Hangarin{% endblock %}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/ready.css' %}">
+  <link rel="stylesheet" href="{% static 'css/demo.css' %}">
+  <style>
+    :root {
+      --olive-dark: #3d4a1e;
+      --olive: #5c6e2b;
+      --olive-mid: #7a8c3a;
+      --olive-light: #a8b96a;
+      --olive-pale: #d4dba8;
+      --olive-wash: #eef1e0;
+      --olive-mist: #f5f7ec;
+      --white: #ffffff;
+      --ink: #1e2410;
+      --ink-muted: #4a5630;
+      --accent: #c8a84b;
+      --accent-light: #f0e0a0;
+      --red-soft: #c05c4a;
+      --shadow: rgba(61,74,30,0.12);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--olive-mist);
+      color: var(--ink);
+    }
+
+    /* ── Sidebar overrides ── */
+    .sidebar {
+      background: var(--olive-dark) !important;
+    }
+    .sidebar .nav .nav-item a {
+      color: rgba(255,255,255,0.65) !important;
+    }
+    .sidebar .nav .nav-item a:hover,
+    .sidebar .nav .nav-item a.active {
+      background: rgba(168,185,106,0.18) !important;
+      color: var(--olive-pale) !important;
+    }
+    .sidebar .nav .nav-item a i {
+      color: var(--olive-light) !important;
+    }
+    .logo-header {
+      background: var(--olive-dark) !important;
+      border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+    }
+    .logo-header .logo {
+      font-family: 'Playfair Display', serif !important;
+      font-weight: 700 !important;
+      font-size: 20px !important;
+      color: var(--white) !important;
+      letter-spacing: -0.3px;
+    }
+    .sidebar .user .info a span {
+      color: var(--white) !important;
+    }
+    .sidebar .user .info .user-level {
+      color: var(--olive-pale) !important;
+      opacity: 0.7;
+    }
+    .sidebar-wrapper {
+      background: var(--olive-dark) !important;
+    }
+
+    /* ── Nav labels ── */
+    .sidebar .nav-section {
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--olive-light);
+      opacity: 0.5;
+      padding: 20px 20px 6px;
+    }
+
+    /* ── Topbar ── */
+    .navbar-header {
+      background: var(--white) !important;
+      border-bottom: 1px solid var(--olive-pale) !important;
+      box-shadow: 0 2px 12px var(--shadow) !important;
+    }
+
+    /* ── Cards ── */
+    .card {
+      border: none !important;
+      border-radius: 14px !important;
+      box-shadow: 0 2px 16px var(--shadow) !important;
+      background: var(--white) !important;
+    }
+    .card-header {
+      background: transparent !important;
+      border-bottom: 1px solid var(--olive-wash) !important;
+      padding: 20px 24px 16px !important;
+    }
+    .card-title {
+      font-family: 'Playfair Display', serif !important;
+      font-size: 18px !important;
+      color: var(--olive-dark) !important;
+      font-weight: 700 !important;
+    }
+    .card-category {
+      color: var(--ink-muted) !important;
+      font-size: 12px !important;
+    }
+
+    /* ── Stat cards ── */
+    .card-stats { border-radius: 14px !important; overflow: hidden; }
+    .card-stats.card-warning  { background: linear-gradient(135deg, #c8a84b, #e8c96b) !important; }
+    .card-stats.card-success  { background: linear-gradient(135deg, #5c6e2b, #7a8c3a) !important; }
+    .card-stats.card-danger   { background: linear-gradient(135deg, #c05c4a, #d97a6a) !important; }
+    .card-stats.card-primary  { background: linear-gradient(135deg, #3d4a1e, #5c6e2b) !important; }
+    .card-stats .card-body { padding: 20px 18px !important; }
+    .card-stats .card-category { color: rgba(255,255,255,0.8) !important; font-size: 11px; font-weight: 500; letter-spacing: 0.5px; }
+    .card-stats .card-title { color: #fff !important; font-size: 28px !important; font-weight: 700 !important; line-height: 1; }
+    .card-stats .icon-big i { font-size: 2.4rem; color: rgba(255,255,255,0.55); }
+
+    /* ── Buttons ── */
+    .btn-success, .btn-rounded.btn-success {
+      background: var(--olive) !important;
+      border-color: var(--olive) !important;
+      color: #fff !important;
+    }
+    .btn-success:hover {
+      background: var(--olive-dark) !important;
+      border-color: var(--olive-dark) !important;
+    }
+    .btn-primary, .btn-rounded.btn-primary {
+      background: var(--olive-dark) !important;
+      border-color: var(--olive-dark) !important;
+    }
+    .btn-danger, .btn-rounded.btn-danger {
+      background: var(--red-soft) !important;
+      border-color: var(--red-soft) !important;
+    }
+
+    /* ── Tables ── */
+    .table thead th {
+      background: var(--olive-wash) !important;
+      color: var(--olive-dark) !important;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      border-bottom: none !important;
+    }
+    .table tbody tr:hover { background: var(--olive-mist) !important; }
+
+    /* ── Status badges ── */
+    .badge-status {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .badge-pending    { background: #fff3cd; color: #856404; }
+    .badge-progress   { background: #cfe2ff; color: #084298; }
+    .badge-completed  { background: #d1e7dd; color: #0a3622; }
+
+    /* ── Priority dots ── */
+    .priority-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 12px; font-weight: 500;
+    }
+    .priority-chip::before {
+      content: '';
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+    }
+    .priority-chip.critical::before { background: #c05c4a; }
+    .priority-chip.high::before     { background: #e88a3a; }
+    .priority-chip.medium::before   { background: #c8a84b; }
+    .priority-chip.low::before      { background: #7a8c3a; }
+    .priority-chip.optional::before { background: #a8b96a; }
+
+    /* ── Search bar ── */
+    .nav-search .form-control {
+      border-color: var(--olive-pale) !important;
+      border-radius: 10px 0 0 10px !important;
+    }
+    .nav-search .form-control:focus {
+      box-shadow: 0 0 0 3px rgba(92,110,43,0.12) !important;
+      border-color: var(--olive-mid) !important;
+    }
+    .nav-search .input-group-text {
+      background: var(--olive-wash) !important;
+      border-color: var(--olive-pale) !important;
+      color: var(--olive) !important;
+    }
+
+    /* ── Pagination ── */
+    .page-item.active .page-link {
+      background: var(--olive) !important;
+      border-color: var(--olive) !important;
+    }
+    .page-link { color: var(--olive) !important; }
+
+    /* ── Page title ── */
+    .page-title {
+      font-family: 'Playfair Display', serif !important;
+      color: var(--olive-dark) !important;
+      font-weight: 700 !important;
+    }
+
+    /* ── Form fields ── */
+    .form-control:focus {
+      border-color: var(--olive-mid) !important;
+      box-shadow: 0 0 0 3px rgba(92,110,43,0.12) !important;
+    }
+
+    /* ── Footer ── */
+    .footer { border-top: 1px solid var(--olive-wash) !important; }
+
+    /* ── Main panel ── */
+    .main-panel { background: var(--olive-mist) !important; }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- ── HEADER ── -->
+  <div class="main-header">
+    <div class="logo-header">
+      <a href="{% url 'home' %}" class="logo">
+        Hangarin
+      </a>
+      <button class="navbar-toggler sidenav-toggler ml-auto" type="button"
+              data-toggle="collapse" data-target="collapse"
+              aria-controls="sidebar" aria-expanded="false">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <button class="topbar-toggler more"><i class="la la-ellipsis-v"></i></button>
+    </div>
+
+    <nav class="navbar navbar-header navbar-expand-lg">
+      <div class="container-fluid">
+        <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+          <li class="nav-item dropdown">
+            <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
+              <span style="width:32px;height:32px;border-radius:50%;background:var(--olive-light);display:inline-flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:700;color:#fff;font-size:14px;margin-right:6px;">
+                {{ request.user.username|first|upper }}
+              </span>
+              <span>{{ request.user.username }}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+              <li>
+                <div class="user-box">
+                  <div class="u-text">
+                    <h4>{{ request.user.username }}</h4>
+                    <p class="text-muted">{{ request.user.email }}</p>
+                  </div>
+                </div>
+              </li>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/accounts/logout/"><i class="la la-power-off"></i> Logout</a>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ── SIDEBAR ── -->
+  <div class="sidebar">
+    <div class="scrollbar-inner sidebar-wrapper">
+      <div class="user">
+        <div class="info">
+          <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+            <span>
+              {{ request.user.username }}
+              <span class="user-level">Task Manager</span>
+              <span class="caret"></span>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <ul class="nav">
+        <p class="nav-section">Main</p>
+
+        <li class="nav-item {% block nav_home %}{% endblock %}">
+          <a href="{% url 'home' %}">
+            <i class="la la-dashboard"></i>
+            <p>Dashboard</p>
+          </a>
+        </li>
+
+        <p class="nav-section">Tasks</p>
+
+        <li class="nav-item {% block nav_task %}{% endblock %}">
+          <a href="{% url 'task-list' %}">
+            <i class="la la-check-square-o"></i>
+            <p>Tasks</p>
+          </a>
+        </li>
+        <li class="nav-item {% block nav_subtask %}{% endblock %}">
+          <a href="{% url 'subtask-list' %}">
+            <i class="la la-list-ul"></i>
+            <p>Sub Tasks</p>
+          </a>
+        </li>
+        <li class="nav-item {% block nav_note %}{% endblock %}">
+          <a href="{% url 'note-list' %}">
+            <i class="la la-sticky-note-o"></i>
+            <p>Notes</p>
+          </a>
+        </li>
+
+        <p class="nav-section">Config</p>
+
+        <li class="nav-item {% block nav_category %}{% endblock %}">
+          <a href="{% url 'category-list' %}">
+            <i class="la la-tags"></i>
+            <p>Categories</p>
+          </a>
+        </li>
+        <li class="nav-item {% block nav_priority %}{% endblock %}">
+          <a href="{% url 'priority-list' %}">
+            <i class="la la-flag"></i>
+            <p>Priorities</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── MAIN PANEL ── -->
+  <div class="main-panel">
+    {% block content %}{% endblock %}
+
+    <footer class="footer">
+      <div class="container-fluid">
+        <div class="copyright ml-auto">
+          2025 &mdash; <strong style="font-family:'Playfair Display',serif;color:var(--olive);">Hangarin</strong> Task Manager
+        </div>
+      </div>
+    </footer>
+  </div>
+
+</div>
+
+<script src="{% static 'js/core/jquery.3.2.1.min.js' %}"></script>
+<script src="{% static 'js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>
+<script src="{% static 'js/core/popper.min.js' %}"></script>
+<script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/plugin/chartist/chartist.min.js' %}"></script>
+<script src="{% static 'js/plugin/bootstrap-notify/bootstrap-notify.min.js' %}"></script>
+<script src="{% static 'js/plugin/jquery-scrollbar/jquery.scrollbar.min.js' %}"></script>
+<script src="{% static 'js/ready.min.js' %}"></script>
+</body>
+</html>
