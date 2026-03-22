@@ -224,3 +224,39 @@ class CategoryDeleteView(LoginRequiredMixin, DeleteView):
     model = Category
     template_name = 'category_del.html'
     success_url = reverse_lazy('category-list')
+
+
+
+
+class PriorityListView(LoginRequiredMixin, ListView):
+    model = Priority
+    context_object_name = 'priority'
+    template_name = 'priority_list.html'
+    paginate_by = 5
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            qs = qs.filter(Q(name__icontains=query))
+        return qs
+
+
+class PriorityCreateView(LoginRequiredMixin, CreateView):
+    model = Priority
+    form_class = PriorityForm
+    template_name = 'priority_form.html'
+    success_url = reverse_lazy('priority-list')
+
+
+class PriorityUpdateView(LoginRequiredMixin, UpdateView):
+    model = Priority
+    form_class = PriorityForm
+    template_name = 'priority_form.html'
+    success_url = reverse_lazy('priority-list')
+
+
+class PriorityDeleteView(LoginRequiredMixin, DeleteView):
+    model = Priority
+    template_name = 'priority_del.html'
+    success_url = reverse_lazy('priority-list')
