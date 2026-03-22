@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Dashboard — Hangarin{% endblock %}
+{% block nav_home %}active{% endblock %}
+
+{% block content %}
+<div class="content">
+  <div class="container-fluid">
+    <h4 class="page-title">Dashboard</h4>
+    <p class="text-muted mb-4" style="font-size:13px;">Overview of your tasks and productivity</p>
+
+    <div class="row">
+      <div class="col-md-2 col-sm-4">
+        <div class="card card-stats card-primary">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-4">
+                <div class="icon-big text-center"><i class="la la-tasks"></i></div>
+              </div>
+              <div class="col-8 d-flex align-items-center">
+                <div class="numbers">
+                  <p class="card-category">Total Tasks</p>
+                  <h4 class="card-title">{{ total_tasks }}</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-2 col-sm-4">
+        <div class="card card-stats card-success">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-4">
+                <div class="icon-big text-center"><i class="la la-check-circle"></i></div>
+              </div>
+              <div class="col-8 d-flex align-items-center">
+                <div class="numbers">
+                  <p class="card-category">Completed</p>
+                  <h4 class="card-title">{{ completed_tasks }}</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-2 col-sm-4">
+        <div class="card card-stats card-warning">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-4">
+                <div class="icon-big text-center"><i class="la la-clock-o"></i></div>
+              </div>
+              <div class="col-8 d-flex align-items-center">
+                <div class="numbers">
+                  <p class="card-category">Pending</p>
+                  <h4 class="card-title">{{ pending_tasks }}</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-2 col-sm-4">
+        <div class="card card-stats card-danger">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-4">
+                <div class="icon-big text-center"><i class="la la-spinner"></i></div>
+              </div>
+              <div class="col-8 d-flex align-items-center">
+                <div class="numbers">
+                  <p class="card-category">In Progress</p>
+                  <h4 class="card-title">{{ in_progress_tasks }}</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-2 col-sm-4">
+        <div class="card card-stats card-success">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-4">
+                <div class="icon-big text-center"><i class="la la-list-ul"></i></div>
+              </div>
+              <div class="col-8 d-flex align-items-center">
+                <div class="numbers">
+                  <p class="card-category">SubTasks</p>
+                  <h4 class="card-title">{{ total_subtasks }}</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-2 col-sm-4">
+        <div class="card card-stats card-warning">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-4">
+                <div class="icon-big text-center"><i class="la la-sticky-note-o"></i></div>
+              </div>
+              <div class="col-8 d-flex align-items-center">
+                <div class="numbers">
+                  <p class="card-category">Notes</p>
+                  <h4 class="card-title">{{ total_notes }}</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-7">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Recent Tasks</div>
+            <div class="card-category">Last 5 added tasks</div>
+          </div>
+          <div class="card-body">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Status</th>
+                  <th>Priority</th>
+                  <th>Category</th>
+                  <th>Deadline</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for task in recent_tasks %}
+                <tr>
+                  <td>
+                    <a href="{% url 'task-update' task.id %}" style="color:var(--olive-dark);font-weight:500;">
+                      {{ task.title|truncatechars:40 }}
+                    </a>
+                  </td>
+                  <td>
+                    {% if task.status == 'Completed' %}
+                      <span class="badge-status badge-completed">Completed</span>
+                    {% elif task.status == 'In Progress' %}
+                      <span class="badge-status badge-progress">In Progress</span>
+                    {% else %}
+                      <span class="badge-status badge-pending">Pending</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if task.priority %}
+                      <span class="priority-chip {{ task.priority.name|lower }}">{{ task.priority.name }}</span>
+                    {% else %}<span class="text-muted">—</span>{% endif %}
+                  </td>
+                  <td>{{ task.category|default:"—" }}</td>
+                  <td style="font-size:12px;">
+                    {{ task.deadline|date:"M d, Y"|default:"—" }}
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="5" class="text-center text-muted py-3">No tasks yet. <a href="{% url 'task-add' %}">Add one!</a></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <a href="{% url 'task-list' %}" class="btn btn-success btn-rounded btn-sm mt-2">View All Tasks</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-5">
+        <div class="card mb-3">
+          <div class="card-header">
+            <div class="card-title">Tasks by Category</div>
+          </div>
+          <div class="card-body">
+            {% for cat in category_stats %}
+            <div class="mb-2">
+              <div class="d-flex justify-content-between" style="font-size:13px;">
+                <span style="color:var(--olive-dark);font-weight:500;">{{ cat.name }}</span>
+                <span style="color:var(--ink-muted);">{{ cat.task_count }} task{{ cat.task_count|pluralize }}</span>
+              </div>
+              <div class="progress" style="height:6px;border-radius:10px;background:var(--olive-wash);">
+                <div class="progress-bar" role="progressbar"
+                     style="width:{% if total_tasks %}{% widthratio cat.task_count total_tasks 100 %}{% else %}0{% endif %}%;background:var(--olive-light);border-radius:10px;">
+                </div>
+              </div>
+            </div>
+            {% empty %}
+            <p class="text-muted text-center">No categories yet.</p>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Tasks by Priority</div>
+          </div>
+          <div class="card-body">
+            {% for pri in priority_stats %}
+            <div class="mb-2">
+              <div class="d-flex justify-content-between" style="font-size:13px;">
+                <span class="priority-chip {{ pri.name|lower }}">{{ pri.name }}</span>
+                <span style="color:var(--ink-muted);">{{ pri.task_count }} task{{ pri.task_count|pluralize }}</span>
+              </div>
+              <div class="progress" style="height:6px;border-radius:10px;background:var(--olive-wash);">
+                <div class="progress-bar" role="progressbar"
+                     style="width:{% if total_tasks %}{% widthratio pri.task_count total_tasks 100 %}{% else %}0{% endif %}%;background:var(--accent);border-radius:10px;">
+                </div>
+              </div>
+            </div>
+            {% empty %}
+            <p class="text-muted text-center">No priorities yet.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
