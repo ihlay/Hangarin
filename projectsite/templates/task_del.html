@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Delete Task — Hangarin{% endblock %}
+{% block nav_task %}active{% endblock %}
+
+{% block content %}
+<div class="content">
+  <div class="container-fluid">
+    <h4 class="page-title">Delete Task</h4>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Confirm Deletion</div>
+          </div>
+          <div class="card-body">
+            <div class="alert alert-danger">
+              <i class="la la-exclamation-triangle"></i>
+              Are you sure you want to delete <strong>"{{ object }}"</strong>?
+              This will also delete all associated notes and subtasks.
+            </div>
+            <form action="" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-rounded">
+                <i class="la la-trash"></i> Yes, Delete
+              </button>
+              <a href="{% url 'task-list' %}" class="btn btn-secondary btn-rounded ml-2">Cancel</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
