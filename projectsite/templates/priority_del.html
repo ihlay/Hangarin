@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Delete Priority — Hangarin{% endblock %}
+{% block nav_priority %}active{% endblock %}
+
+{% block content %}
+<div class="content">
+  <div class="container-fluid">
+    <h4 class="page-title">Delete Priority</h4>
+    <div class="row">
+      <div class="col-md-5">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Confirm Deletion</div>
+          </div>
+          <div class="card-body">
+            <div class="alert alert-danger">
+              <i class="la la-exclamation-triangle"></i>
+              Are you sure you want to delete priority <strong>"{{ object }}"</strong>?
+              Tasks with this priority will have their priority cleared.
+            </div>
+            <form action="" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-rounded">
+                <i class="la la-trash"></i> Yes, Delete
+              </button>
+              <a href="{% url 'priority-list' %}" class="btn btn-secondary btn-rounded ml-2">Cancel</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
