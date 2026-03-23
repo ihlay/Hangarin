@@ -196,7 +196,7 @@ class CategoryListView(LoginRequiredMixin, ListView):
     model = Category
     context_object_name = 'category'
     template_name = 'category_list.html'
-    paginate_by = 8
+    paginate_by = 10
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -232,7 +232,7 @@ class PriorityListView(LoginRequiredMixin, ListView):
     model = Priority
     context_object_name = 'priority'
     template_name = 'priority_list.html'
-    paginate_by = 8
+    paginate_by = 10
 
     def get_queryset(self):
         qs = super().get_queryset()
