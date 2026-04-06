@@ -11,6 +11,7 @@ from todoapp.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('pwa.urls')),
     path('', HomePageView.as_view(), name='home'),
 
     path('task_list', TaskListView.as_view(), name='task-list'),
