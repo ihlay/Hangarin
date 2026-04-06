@@ -1,4 +1,5 @@
 {% load static %}
+{% load pwa %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -223,6 +224,7 @@
     /* ── Main panel ── */
     .main-panel { background: var(--olive-mist) !important; }
   </style>
+  {% progressive_web_app_meta %}
 </head>
 <body>
 <div class="wrapper">
