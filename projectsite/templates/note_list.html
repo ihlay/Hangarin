@@ -9,7 +9,7 @@
     <h4 class="page-title">Notes</h4>
 
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-12">
         <div class="card">
           <div class="card-header">
             <div class="card-title">All Notes</div>
@@ -19,7 +19,7 @@
             <form method="get" action="{% url 'note-list' %}">
               <div class="row align-items-end">
 
-                <div class="col-md-5">
+                <div class="col-12 col-md-5 mb-2 mb-md-0">
                   <label style="font-size:11px;font-weight:600;color:var(--ink-muted);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;">Search</label>
                   <div class="input-group">
                     <input type="text" name="q" value="{{ request.GET.q }}"
@@ -33,7 +33,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-6 col-md-3 mb-2 mb-md-0">
                   <label style="font-size:11px;font-weight:600;color:var(--ink-muted);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;">Sort by Date</label>
                   <select name="sort_by" class="form-control" style="border-radius:10px;font-size:13px;" onchange="this.form.submit()">
                     <option value="newest" {% if request.GET.sort_by != 'oldest' %}selected{% endif %}>
@@ -45,7 +45,7 @@
                   </select>
                 </div>
 
-                <div class="col-md-4 text-right">
+                <div class="col-6 col-md-4 text-right mb-2 mb-md-0">
                   <a href="{% url 'note-add' %}" class="btn btn-success btn-rounded">
                     <i class="la la-plus"></i> Add Note
                   </a>
@@ -70,45 +70,47 @@
           </div>
 
           <div class="card-body">
-            <table class="table table-striped mt-3">
-              <thead>
-                <tr>
-                  <th>Task</th>
-                  <th>Content</th>
-                  <th>
-                    Created
-                    {% if request.GET.sort_by == 'oldest' %}
-                      <i class="la la-arrow-up" style="color:var(--olive);font-size:12px;" title="Oldest first"></i>
-                    {% else %}
-                      <i class="la la-arrow-down" style="color:var(--olive);font-size:12px;" title="Newest first"></i>
-                    {% endif %}
-                  </th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for object in object_list %}
-                <tr>
-                  <td style="font-weight:500;color:var(--olive-dark);min-width:160px;">{{ object.task }}</td>
-                  <td style="color:var(--ink-muted);font-size:13px;">{{ object.content|truncatechars:80 }}</td>
-                  <td style="font-size:12px;white-space:nowrap;">
-                    {{ object.created_at|date:"M d, Y" }}
-                    <span style="color:var(--ink-muted);font-size:11px;display:block;">{{ object.created_at|date:"h:i A" }}</span>
-                  </td>
-                  <td>
-                    <a href="{% url 'note-update' object.id %}" class="btn btn-sm btn-primary btn-rounded" style="font-size:11px;padding:3px 10px;">Edit</a>
-                    <a href="{% url 'note-delete' object.id %}" class="btn btn-sm btn-danger btn-rounded" style="font-size:11px;padding:3px 10px;">Delete</a>
-                  </td>
-                </tr>
-                {% empty %}
-                <tr>
-                  <td colspan="4" class="text-center py-4 text-muted">
-                    No notes found. <a href="{% url 'note-add' %}">Add your first note.</a>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
+            <div class="table-responsive">
+              <table class="table table-striped mt-3">
+                <thead>
+                  <tr>
+                    <th>Task</th>
+                    <th>Content</th>
+                    <th style="white-space:nowrap;">
+                      Created
+                      {% if request.GET.sort_by == 'oldest' %}
+                        <i class="la la-arrow-up" style="color:var(--olive);font-size:12px;" title="Oldest first"></i>
+                      {% else %}
+                        <i class="la la-arrow-down" style="color:var(--olive);font-size:12px;" title="Newest first"></i>
+                      {% endif %}
+                    </th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for object in object_list %}
+                  <tr>
+                    <td style="font-weight:500;color:var(--olive-dark);min-width:140px;">{{ object.task }}</td>
+                    <td style="color:var(--ink-muted);font-size:13px;">{{ object.content|truncatechars:80 }}</td>
+                    <td style="font-size:12px;white-space:nowrap;">
+                      {{ object.created_at|date:"M d, Y" }}
+                      <span style="color:var(--ink-muted);font-size:11px;display:block;">{{ object.created_at|date:"h:i A" }}</span>
+                    </td>
+                    <td style="white-space:nowrap;">
+                      <a href="{% url 'note-update' object.id %}" class="btn btn-sm btn-primary btn-rounded" style="font-size:11px;padding:3px 10px;">Edit</a>
+                      <a href="{% url 'note-delete' object.id %}" class="btn btn-sm btn-danger btn-rounded" style="font-size:11px;padding:3px 10px;">Delete</a>
+                    </td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="4" class="text-center py-4 text-muted">
+                      No notes found. <a href="{% url 'note-add' %}">Add your first note.</a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
             {% include 'includes/pagination.html' %}
           </div>
         </div>

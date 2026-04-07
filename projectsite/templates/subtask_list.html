@@ -9,7 +9,7 @@
     <h4 class="page-title">Sub Tasks</h4>
 
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-12">
         <div class="card">
           <div class="card-header">
             <div class="card-title">All SubTasks</div>
@@ -19,7 +19,7 @@
             <form method="get" action="{% url 'subtask-list' %}">
               <div class="row align-items-end">
 
-                <div class="col-md-5">
+                <div class="col-12 col-md-5 mb-2 mb-md-0">
                   <label style="font-size:11px;font-weight:600;color:var(--ink-muted);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;">Search</label>
                   <div class="input-group">
                     <input type="text" name="q" value="{{ request.GET.q }}"
@@ -33,7 +33,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-6 col-md-3 mb-2 mb-md-0">
                   <label style="font-size:11px;font-weight:600;color:var(--ink-muted);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;">Filter by Status</label>
                   <select name="status" class="form-control" style="border-radius:10px;font-size:13px;" onchange="this.form.submit()">
                     <option value="">All Statuses</option>
@@ -43,7 +43,7 @@
                   </select>
                 </div>
 
-                <div class="col-md-4 text-right">
+                <div class="col-6 col-md-4 text-right mb-2 mb-md-0">
                   <a href="{% url 'subtask-add' %}" class="btn btn-success btn-rounded">
                     <i class="la la-plus"></i> Add SubTask
                   </a>
@@ -74,47 +74,49 @@
           </div>
 
           <div class="card-body">
-            <table class="table table-striped mt-3">
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Status</th>
-                  <th>Parent Task</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for object in object_list %}
-                <tr>
-                  <td style="font-weight:500;color:var(--olive-dark);">{{ object.title|truncatechars:60 }}</td>
-                  <td>
-                    {% if object.status == 'Completed' %}
-                      <span class="badge-status badge-completed">Completed</span>
-                    {% elif object.status == 'In Progress' %}
-                      <span class="badge-status badge-progress">In Progress</span>
-                    {% else %}
-                      <span class="badge-status badge-pending">Pending</span>
-                    {% endif %}
-                  </td>
-                  <td style="font-size:13px;color:var(--ink-muted);">{{ object.parent_task }}</td>
-                  <td>
-                    <a href="{% url 'subtask-update' object.id %}" class="btn btn-sm btn-primary btn-rounded" style="font-size:11px;padding:3px 10px;">Edit</a>
-                    <a href="{% url 'subtask-delete' object.id %}" class="btn btn-sm btn-danger btn-rounded" style="font-size:11px;padding:3px 10px;">Delete</a>
-                  </td>
-                </tr>
-                {% empty %}
-                <tr>
-                  <td colspan="4" class="text-center py-4 text-muted">
-                    No subtasks match your filter.
-                    {% if request.GET.status or request.GET.q %}
-                      <a href="{% url 'subtask-list' %}">Clear filter</a> or
-                    {% endif %}
-                    <a href="{% url 'subtask-add' %}">add a subtask</a>.
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
+            <div class="table-responsive">
+              <table class="table table-striped mt-3">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th style="white-space:nowrap;">Parent Task</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for object in object_list %}
+                  <tr>
+                    <td style="font-weight:500;color:var(--olive-dark);">{{ object.title|truncatechars:60 }}</td>
+                    <td>
+                      {% if object.status == 'Completed' %}
+                        <span class="badge-status badge-completed">Completed</span>
+                      {% elif object.status == 'In Progress' %}
+                        <span class="badge-status badge-progress">In Progress</span>
+                      {% else %}
+                        <span class="badge-status badge-pending">Pending</span>
+                      {% endif %}
+                    </td>
+                    <td style="font-size:13px;color:var(--ink-muted);">{{ object.parent_task }}</td>
+                    <td style="white-space:nowrap;">
+                      <a href="{% url 'subtask-update' object.id %}" class="btn btn-sm btn-primary btn-rounded" style="font-size:11px;padding:3px 10px;">Edit</a>
+                      <a href="{% url 'subtask-delete' object.id %}" class="btn btn-sm btn-danger btn-rounded" style="font-size:11px;padding:3px 10px;">Delete</a>
+                    </td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="4" class="text-center py-4 text-muted">
+                      No subtasks match your filter.
+                      {% if request.GET.status or request.GET.q %}
+                        <a href="{% url 'subtask-list' %}">Clear filter</a> or
+                      {% endif %}
+                      <a href="{% url 'subtask-add' %}">add a subtask</a>.
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
             {% include 'includes/pagination.html' %}
           </div>
         </div>
