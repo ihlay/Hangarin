@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>{% block title %}Hangarin{% endblock %}</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
@@ -32,9 +32,16 @@
       font-family: 'DM Sans', sans-serif;
       background: var(--olive-mist);
       color: var(--ink);
+      overflow-x: hidden;
     }
 
-    /* ── Sidebar overrides ── */
+    .wrapper {
+      overflow-x: hidden;
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
     .sidebar {
       background: var(--olive-dark) !important;
     }
@@ -71,7 +78,6 @@
       background: var(--olive-dark) !important;
     }
 
-    /* ── Nav labels ── */
     .sidebar .nav-section {
       font-size: 10px;
       letter-spacing: 2.5px;
@@ -81,14 +87,12 @@
       padding: 20px 20px 6px;
     }
 
-    /* ── Topbar ── */
     .navbar-header {
       background: var(--white) !important;
       border-bottom: 1px solid var(--olive-pale) !important;
       box-shadow: 0 2px 12px var(--shadow) !important;
     }
 
-    /* ── Cards ── */
     .card {
       border: none !important;
       border-radius: 14px !important;
@@ -111,7 +115,6 @@
       font-size: 12px !important;
     }
 
-    /* ── Stat cards ── */
     .card-stats { border-radius: 14px !important; overflow: hidden; }
     .card-stats.card-warning  { background: linear-gradient(135deg, #c8a84b, #e8c96b) !important; }
     .card-stats.card-success  { background: linear-gradient(135deg, #5c6e2b, #7a8c3a) !important; }
@@ -122,7 +125,6 @@
     .card-stats .card-title { color: #fff !important; font-size: 28px !important; font-weight: 700 !important; line-height: 1; }
     .card-stats .icon-big i { font-size: 2.4rem; color: rgba(255,255,255,0.55); }
 
-    /* ── Buttons ── */
     .btn-success, .btn-rounded.btn-success {
       background: var(--olive) !important;
       border-color: var(--olive) !important;
@@ -141,7 +143,6 @@
       border-color: var(--red-soft) !important;
     }
 
-    /* ── Tables ── */
     .table thead th {
       background: var(--olive-wash) !important;
       color: var(--olive-dark) !important;
@@ -153,7 +154,6 @@
     }
     .table tbody tr:hover { background: var(--olive-mist) !important; }
 
-    /* ── Status badges ── */
     .badge-status {
       display: inline-block;
       padding: 3px 10px;
@@ -161,15 +161,16 @@
       font-size: 11px;
       font-weight: 600;
       letter-spacing: 0.3px;
+      white-space: nowrap;
     }
     .badge-pending    { background: #fff3cd; color: #856404; }
     .badge-progress   { background: #cfe2ff; color: #084298; }
     .badge-completed  { background: #d1e7dd; color: #0a3622; }
 
-    /* ── Priority dots ── */
     .priority-chip {
       display: inline-flex; align-items: center; gap: 5px;
       font-size: 12px; font-weight: 500;
+      white-space: nowrap; 
     }
     .priority-chip::before {
       content: '';
@@ -183,7 +184,6 @@
     .priority-chip.low::before      { background: #7a8c3a; }
     .priority-chip.optional::before { background: #a8b96a; }
 
-    /* ── Search bar ── */
     .nav-search .form-control {
       border-color: var(--olive-pale) !important;
       border-radius: 10px 0 0 10px !important;
@@ -198,46 +198,113 @@
       color: var(--olive) !important;
     }
 
-    /* ── Pagination ── */
     .page-item.active .page-link {
       background: var(--olive) !important;
       border-color: var(--olive) !important;
     }
     .page-link { color: var(--olive) !important; }
 
-    /* ── Page title ── */
     .page-title {
       font-family: 'Playfair Display', serif !important;
       color: var(--olive-dark) !important;
       font-weight: 700 !important;
     }
 
-    /* ── Form fields ── */
     .form-control:focus {
       border-color: var(--olive-mid) !important;
       box-shadow: 0 0 0 3px rgba(92,110,43,0.12) !important;
     }
 
-    /* ── Footer ── */
     .footer { border-top: 1px solid var(--olive-wash) !important; }
 
-    /* ── Main panel ── */
-    .main-panel { background: var(--olive-mist) !important; }
+    .main-panel {
+      background: var(--olive-mist) !important;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    @media (max-width: 767px) {
+
+      .main-panel {
+        width: 100% !important;
+        margin-left: 0 !important;
+        padding-bottom: env(safe-area-inset-bottom, 16px);
+      }
+
+      .content {
+        padding: 16px 12px !important;
+      }
+
+      .page-title {
+        font-size: 1.25rem !important;
+      }
+
+      .card-stats {
+        margin-bottom: 12px;
+      }
+
+      .card-body {
+        padding: 14px 12px !important;
+      }
+      .card-header {
+        padding: 14px 16px 10px !important;
+      }
+      .card-title {
+        font-size: 15px !important;
+      }
+
+      .table-responsive-mobile {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        display: block;
+        width: 100%;
+      }
+
+      .table th,
+      .table td {
+        font-size: 12px !important;
+        padding: 8px 6px !important;
+        vertical-align: middle;
+      }
+
+      .col-md-7,
+      .col-md-5 {
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+
+      .row {
+        margin-left: -8px;
+        margin-right: -8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .content {
+        padding: 12px 8px !important;
+      }
+      .card-stats .card-title {
+        font-size: 22px !important;
+      }
+      .card-stats .icon-big i {
+        font-size: 1.8rem;
+      }
+    }
   </style>
   {% progressive_web_app_meta %}
 </head>
 <body>
 <div class="wrapper">
 
-  <!-- ── HEADER ── -->
   <div class="main-header">
     <div class="logo-header">
       <a href="{% url 'home' %}" class="logo">
         Hangarin
       </a>
       <button class="navbar-toggler sidenav-toggler ml-auto" type="button"
-              data-toggle="collapse" data-target="collapse"
-              aria-controls="sidebar" aria-expanded="false">
+              data-toggle="collapse" data-target="#sidebar"
+              aria-controls="sidebar" aria-expanded="false"
+              aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <button class="topbar-toggler more"><i class="la la-ellipsis-v"></i></button>
@@ -271,8 +338,7 @@
     </nav>
   </div>
 
-  <!-- ── SIDEBAR ── -->
-  <div class="sidebar">
+  <div class="sidebar" id="sidebar">
     <div class="scrollbar-inner sidebar-wrapper">
       <div class="user">
         <div class="info">
@@ -335,7 +401,6 @@
     </div>
   </div>
 
-  <!-- ── MAIN PANEL ── -->
   <div class="main-panel">
     {% block content %}{% endblock %}
 
